@@ -1,24 +1,32 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useRoutes } from 'react-router-dom';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import CrearFactura from './pages/CrearFactura';
 import ListaFacturas from './pages/ListaFacturas';
 import { AuthProvider } from './contexts/AuthContext';
-
+const AppRoutes = () => {
+  let Routes = useRoutes([
+    { path: '/', element: <Layout />, 
+      children: [
+        { index:true, element: <Dashboard /> },	
+        {
+          path: 'facturas',
+          children: [
+            { index: true, element: <ListaFacturas /> },
+            { path: 'crear', element: <CrearFactura /> }
+          ]
+        }
+      ]
+    }
+  ])
+  return Routes;
+}
 const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="facturas">
-              <Route index element={<ListaFacturas />} />
-              <Route path="crear" element={<CrearFactura />} />
-            </Route>
-          </Route>
-        </Routes>
+        <AppRoutes/>
       </BrowserRouter>
     </AuthProvider>
   );
