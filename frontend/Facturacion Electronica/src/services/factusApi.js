@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const factusApi = axios.create({
-  baseURL: process.env.REACT_APP_FACTUS_API_URL,
+  baseURL: import.meta.env.REACT_APP_FACTUS_API_URL,
 });
 
 factusApi.interceptors.request.use(
